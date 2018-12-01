@@ -8,7 +8,7 @@ class Type: public Identifier {
 
 public:
     Type() noexcept: Identifier() {}
-    Type(const std::string & name) noexcept: Identifier(name) {}
+    explicit Type(const std::string & name) noexcept: Identifier(name) {}
 };
 
 }

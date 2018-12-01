@@ -12,6 +12,10 @@ namespace Stmt {
 class VariableDefine: public Stmt_ {
 
 public:
+    Identifier * name = nullptr;
+    Type * type = nullptr;
+    Expr_ * value = nullptr;
+
     VariableDefine(Identifier * name, Expr_ * value) noexcept:
             name(name), value(value)
     {}
@@ -23,10 +27,6 @@ public:
     VariableDefine(Identifier * name, Type * type, Expr_ * value) noexcept:
             name(name), type(type), value(value)
     {}
-
-    Identifier * name = nullptr;
-    Type * type = nullptr;
-    Expr_ * value = nullptr;
 };
 
 }

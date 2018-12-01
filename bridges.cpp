@@ -1,5 +1,7 @@
 #include <vector>
+
 #include "Node/Stmt/VariableDefine.hpp"
+#include "Node/Stmt/Expression.hpp"
 
 extern "C" {
 
@@ -31,16 +33,20 @@ Type * makeType(char * name) {
     return new Type(name);
 }
 
-Stmt::VariableDefine * makeVariableDefineT(void * name, void * type) {
+Stmt::VariableDefine * makeVariableDefineStmtT(void * name, void * type) {
     return new Stmt::VariableDefine(static_cast<Identifier *>(name), static_cast<Type *>(type));
 }
 
-Stmt::VariableDefine * makeVariableDefineV(void * name, void * value) {
+Stmt::VariableDefine * makeVariableDefineStmtV(void * name, void * value) {
     return new Stmt::VariableDefine(static_cast<Identifier *>(name), static_cast<Expr_ *>(value));
 }
 
-Stmt::VariableDefine * makeVariableDefine(void * name, void * type, void * value) {
+Stmt::VariableDefine * makeVariableDefineStmt(void * name, void * type, void * value) {
     return new Stmt::VariableDefine(static_cast<Identifier *>(name), static_cast<Type *>(type), static_cast<Expr_ *>(value));
+}
+
+Stmt::Expression * makeExpressionStmt(void * expr) {
+    return new Stmt::Expression(static_cast<Expr_ *>(expr));
 }
 
 }

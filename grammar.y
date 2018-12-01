@@ -100,13 +100,13 @@ stmt
     ;
 
 stmt_variable_define
-    : T_VAR identifier ':' type          { $$ = makeVariableDefineT($2, $4); }
-    | T_VAR identifier '=' expr          { $$ = makeVariableDefineV($2, $4); }
-    | T_VAR identifier ':' type '=' expr { $$ = makeVariableDefine($2, $4, $6); }
+    : T_VAR identifier ':' type          { $$ = makeVariableDefineStmtT($2, $4); }
+    | T_VAR identifier '=' expr          { $$ = makeVariableDefineStmtV($2, $4); }
+    | T_VAR identifier ':' type '=' expr { $$ = makeVariableDefineStmt($2, $4, $6); }
     ;
 
 stmt_expression
-    : expr      { /**/ }
+    : expr      { $$ = makeExpressionStmt($1); }
     ;
 
 stmt_return

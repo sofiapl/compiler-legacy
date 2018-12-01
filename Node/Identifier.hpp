@@ -20,15 +20,15 @@ public:
     }
 
     std::string name() const noexcept {
-        return std::string(*_name);
+        return std::string(* _name);
     }
 
     std::string & name() noexcept {
-        return *_name;
+        return * _name;
     }
 
     void name(const std::string & name) noexcept {
-        (*_name) = name;
+        (* _name) = name;
     }
 
 private:

@@ -7,6 +7,8 @@ extern void * pushNode(void * vector, void * node);
 extern void * makeIdentifier(char * name);
 extern void * makeType(char * name);
 
-extern void * makeVariableDefineT(void * name, void * type);
-extern void * makeVariableDefineV(void * name, void * value);
-extern void * makeVariableDefine(void * name, void * type, void * value);
+extern void * makeVariableDefineStmtT(void * name, void * type);
+extern void * makeVariableDefineStmtV(void * name, void * value);
+extern void * makeVariableDefineStmt(void * name, void * type, void * value);
+
+extern void * makeExpressionStmt(void * expr);
