@@ -110,7 +110,7 @@ stmt_expression
     ;
 
 stmt_return
-    : T_RETURN expr { /**/ }
+    : T_RETURN expr { $$ = makeReturnStmt($2); }
     ;
 
 expr

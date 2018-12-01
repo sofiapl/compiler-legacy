@@ -39,6 +39,7 @@ add_executable(
         Node/Stmt_.hpp
         Node/Stmt/VariableDefine.hpp
         Node/Stmt/Expression.hpp
+        Node/Stmt/Return.hpp
 
         # Parser
         bridges.cpp

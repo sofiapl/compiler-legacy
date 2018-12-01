@@ -12,3 +12,5 @@ extern void * makeVariableDefineStmtV(void * name, void * value);
 extern void * makeVariableDefineStmt(void * name, void * type, void * value);
 
 extern void * makeExpressionStmt(void * expr);
+
+extern void * makeReturnStmt(void * value);

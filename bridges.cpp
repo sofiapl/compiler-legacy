@@ -2,6 +2,7 @@
 
 #include "Node/Stmt/VariableDefine.hpp"
 #include "Node/Stmt/Expression.hpp"
+#include "Node/Stmt/Return.hpp"
 
 extern "C" {
 
@@ -47,6 +48,10 @@ Stmt::VariableDefine * makeVariableDefineStmt(void * name, void * type, void * v
 
 Stmt::Expression * makeExpressionStmt(void * expr) {
     return new Stmt::Expression(static_cast<Expr_ *>(expr));
+}
+
+Stmt::Return * makeReturnStmt(void * value) {
+    return new Stmt::Return(static_cast<Expr_ *>(value));
 }
 
 }
