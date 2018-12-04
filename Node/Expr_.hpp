@@ -4,6 +4,12 @@
 
 namespace Node {
 
-class Expr_: public Node_ {};
+class Type_;
+
+class Expr_: public Node_ {
+
+public:
+    virtual Type_ * type() = 0;
+};
 
 }

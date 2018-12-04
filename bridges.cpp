@@ -3,6 +3,7 @@
 #include "Node/Stmt/VariableDefine.hpp"
 #include "Node/Stmt/Expression.hpp"
 #include "Node/Stmt/Return.hpp"
+#include "Node/Type/Numeric.hpp"
 
 extern "C" {
 
@@ -30,12 +31,26 @@ Identifier * makeIdentifier(char * name) {
     return new Identifier(name);
 }
 
-Type * makeType(char * name) {
-    return new Type(name);
+Type::Numeric * makeNumericType(unsigned char mask, bool _signed, unsigned char bits, bool integer) {
+    auto ret = new Type::Numeric();
+
+    if (mask & 1) {
+        ret->signed_ = _signed;
+    }
+
+    if (mask & 2) {
+        ret->bits = bits;
+    }
+
+    if (mask & 4) {
+        ret->integer = integer;
+    }
+
+    return ret;
 }
 
 Stmt::VariableDefine * makeVariableDefineStmtT(void * name, void * type) {
-    return new Stmt::VariableDefine(static_cast<Identifier *>(name), static_cast<Type *>(type));
+    return new Stmt::VariableDefine(static_cast<Identifier *>(name), static_cast<Type_ *>(type));
 }
 
 Stmt::VariableDefine * makeVariableDefineStmtV(void * name, void * value) {
@@ -43,7 +58,7 @@ Stmt::VariableDefine * makeVariableDefineStmtV(void * name, void * value) {
 }
 
 Stmt::VariableDefine * makeVariableDefineStmt(void * name, void * type, void * value) {
-    return new Stmt::VariableDefine(static_cast<Identifier *>(name), static_cast<Type *>(type), static_cast<Expr_ *>(value));
+    return new Stmt::VariableDefine(static_cast<Identifier *>(name), static_cast<Type_ *>(type), static_cast<Expr_ *>(value));
 }
 
 Stmt::Expression * makeExpressionStmt(void * expr) {

@@ -1,4 +1,6 @@
 %{
+#include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "../bridges.h"
@@ -17,15 +19,22 @@ extern void yyerror(char *);
     char * pChar;
 
     void * pVoid;
+
+    int vInt;
+    bool vBool;
+    unsigned char vUChar;
 }
 
-%type <pVoid> file identifier type
+%type <pVoid> file identifier
+              type type_numeric
               top_stmts top_stmt stmts stmts_r
               stmt stmt_variable_define stmt_expression stmt_return
               expr expr_function expr_function_call expr_value expr_fetch expr_assign expr_when expr_op
               function_arg list_function_arg list_expr_nr list_expr
               when_body when_stmts when_stmt when_expr
 
+%type <vBool> type_numeric_signed type_numeric_integer
+%type <vUChar> type_numeric_bits
 
 %left ','
 %right '!' '~'
@@ -33,14 +42,15 @@ extern void yyerror(char *);
 %left '*' '/' '%'
 %left '+' '-'
 %left T_SHL_OP T_SHR_OP T_USHR_OP
-%left '<' T_GREQ_OP '>' T_LEEQ_OP
-%left T_EQ_OP T_NEQ_OP
+%left '<' T_GE_OP '>' T_LE_OP
+%left T_EQ_OP T_NE_OP
 %left '&'
 %left '^'
 %left '|'
 %left T_AND_OP
 %left T_OR_OP
-%right '=' T_PLAS_OP T_MIAS_OP T_MULAS_OP T_EXPAS_OP T_DIVAS_OP T_MODAS_OP T_SHLAS_OP T_SHRAS_OP T_USHRAS_OP T_BITANDAS_OP T_BITXORAS_OP T_BITORAS_OP
+%right T_ARR_RIGHT
+%right '=' T_PL_AS_OP T_MI_AS_OP T_MUL_AS_OP T_EXP_AS_OP T_DIV_AS_OP T_MOD_AS_OP T_SHL_AS_OP T_SHR_AS_OP T_USHR_AS_OP T_AND_AS_OP T_XOR_AS_OP T_OR_AS_OP
 %right '(' ')'
 %right '[' ']'
 %right '{' '}'
@@ -49,13 +59,16 @@ extern void yyerror(char *);
 %right T_IF T_ELSE T_WHEN
 %right T_FUNCTION
 %token T_RETURN
-%token T_ARR_RIGHT
+%token T_SIGNED T_UNSIGNED
+%token T_BIT T_BYTE T_SHORT T_LONG
+%token T_INT T_FLOAT
 
-%token <pChar> T_LITERAL
+%token <pChar> T_NAME
+%token <vInt> T_NUMBER
 
-%token <vChar> T_CHAR
-%token <pChar> T_STRING
-%token <pChar> T_NUMBER
+%token <vChar> T_CHAR_LITERAL
+%token <pChar> T_STRING_LITERAL
+%token <pChar> T_NUMBER_LITERAL
 
 %left T_UMINUS
 
@@ -67,11 +80,41 @@ file
     ;
 
 identifier
-    : T_LITERAL { $$ = makeIdentifier($1); }
+    : T_NAME { $$ = makeIdentifier($1); }
     ;
 
 type
-    : T_LITERAL { $$ = makeType($1); }
+    : type_numeric  /*
+    | type_array
+    | type_function */
+    ;
+
+type_numeric
+    : type_numeric_signed                                           { $$ = makeNumericType(1, $1,    0,  false); }
+    | type_numeric_bits                                             { $$ = makeNumericType(2, false, $1, false); }
+    | type_numeric_integer                                          { $$ = makeNumericType(4, false, 0,  $1);    }
+    | type_numeric_signed type_numeric_bits                         { $$ = makeNumericType(3, $1,    $2, false); }
+    | type_numeric_signed type_numeric_integer                      { $$ = makeNumericType(5, $1,    0,  $2);    }
+    | type_numeric_bits type_numeric_integer                        { $$ = makeNumericType(6, false, $1, $1);    }
+    | type_numeric_signed type_numeric_bits type_numeric_integer    { $$ = makeNumericType(7, $1,    $2, $3);    }
+    ;
+
+type_numeric_signed
+    : T_SIGNED      { $$ = true; }
+    | T_UNSIGNED    { $$ = false; }
+    ;
+
+type_numeric_bits
+    : T_NUMBER
+    | T_BIT     { $$ = 1; }
+    | T_BYTE    { $$ = 8; }
+    | T_SHORT   { $$ = 16; }
+    | T_LONG    { $$ = 64; }
+    ;
+
+type_numeric_integer
+    : T_INT     { $$ = true; }
+    | T_FLOAT   { $$ = false; }
     ;
 
 top_stmts
@@ -125,6 +168,7 @@ expr
 
 expr_function
     : T_FUNCTION '(' list_function_arg ')' '{' stmts '}'
+            { /**/ }
     ;
 
 list_function_arg
@@ -134,14 +178,14 @@ list_function_arg
     ;
 
 function_arg
-    : identifier
-    | identifier ':' type
-    | identifier '=' expr
-    | identifier ':' type '=' expr
+    : identifier                    { /**/ }
+    | identifier ':' type           { /**/ }
+    | identifier '=' expr           { /**/ }
+    | identifier ':' type '=' expr  { /**/ }
     ;
 
 expr_function_call
-    : expr '(' list_expr_nr ')'
+    : expr '(' list_expr_nr ')' { /**/ }
     ;
 
 list_expr_nr
@@ -155,22 +199,23 @@ list_expr
     ;
 
 expr_value
-    : T_NUMBER
-    | T_STRING
-    | T_CHAR
+    : T_NUMBER          { /**/ }
+    | T_NUMBER_LITERAL  { /**/ }
+    | T_STRING_LITERAL  { /**/ }
+    | T_CHAR_LITERAL    { /**/ }
     ;
 
 expr_fetch
-    : identifier
+    : identifier    { /**/ }
     ;
 
 expr_assign
-    : identifier '=' expr
+    : identifier '=' expr   { /**/ }
     ;
 
 expr_when
-    : T_WHEN '(' expr ')' '{' when_body '}'
-    | T_WHEN '{' when_body '}'
+    : T_WHEN '(' expr ')' '{' when_body '}' { /**/ }
+    | T_WHEN '{' when_body '}'              { /**/ }
     ;
 
 when_body

@@ -4,6 +4,8 @@ project(sofia)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_compile_options(-Wall -fkeep-inline-functions -O0)
+
 find_package(Flex  REQUIRED)
 find_package(Bison REQUIRED)
 
@@ -33,8 +35,9 @@ add_executable(
 
         # AST
         Node_.hpp
-        Node/Type.hpp
         Node/Identifier.hpp
+        Node/Type_.hpp
+        Node/Type/Numeric.hpp
         Node/Expr_.hpp
         Node/Stmt_.hpp
         Node/Stmt/VariableDefine.hpp
