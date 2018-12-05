@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "y.tab.h"
-#include "../bridges.h"
+#include "bridges.h"
 
 extern void yyerror(char *);
 %}

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../bridges.h"
+#include "bridges.h"
 extern void * file;
 
 int yydebug = 1;
