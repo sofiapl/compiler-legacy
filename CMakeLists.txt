@@ -31,6 +31,7 @@ add_custom_command(
         DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/y.tab.c"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/y.tab.h"
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/y.output"
 )
 
 add_executable(
