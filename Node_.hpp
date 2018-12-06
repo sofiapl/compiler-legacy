@@ -1,3 +1,7 @@
 #pragma once
 
-class Node_ {};
+class Node_ {
+
+protected:
+    virtual void _() {};
+};
