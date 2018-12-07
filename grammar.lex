@@ -7,12 +7,23 @@
 #include "bridges.h"
 
 extern void yyerror(char *);
+
+int dupAndRet(int ret) {
+    yylval.pChar = strdup(yytext);
+    return ret;
+}
+
 %}
 
-W  [a-zA-Z_$]
-N  [0-9]
-hN [0-9a-fA-F]
-S  [ \b\n\t\f\r]
+W   [a-zA-Z_$]
+N   [0-9]
+hN  [0-9a-fA-F]
+S   [ \b\n\t\f\r]
+
+nPrefix     (0x|0b|0)
+nSigning    u?
+nType       [bsilfd]
+nLength     {N}*
 
 %%
 
@@ -24,14 +35,15 @@ S  [ \b\n\t\f\r]
 (?i:"when")     { return T_WHEN; }
 (?i:"function") { return T_FUNCTION; }
 (?i:"return")   { return T_RETURN; }
-(?i:"signed")   { return T_SIGNED; }
-(?i:"unsigned") { return T_UNSIGNED; }
-(?i:"bit")      { return T_BIT; }
-(?i:"byte")     { return T_BYTE; }
-(?i:"short")    { return T_SHORT; }
-(?i:"long")     { return T_LONG; }
-(?i:"int")      { return T_INT; }
-(?i:"float")    { return T_FLOAT; }
+
+(?i:"signed")   { return dupAndRet(T_SIGNED); }
+(?i:"unsigned") { return dupAndRet(T_UNSIGNED); }
+(?i:"bit")      { return dupAndRet(T_BIT); }
+(?i:"byte")     { return dupAndRet(T_BYTE); }
+(?i:"short")    { return dupAndRet(T_SHORT); }
+(?i:"long")     { return dupAndRet(T_LONG); }
+(?i:"int")      { return dupAndRet(T_INT); }
+(?i:"float")    { return dupAndRet(T_FLOAT); }
 
 (?i:"->")   { return T_ARR_RIGHT; }
 
@@ -41,8 +53,7 @@ S  [ \b\n\t\f\r]
 ">>>"       { return T_USHR_OP; }
 
 "\""(.|{S})*"\""    {
-    yylval.pChar = strdup(yytext);
-    return T_STRING_LITERAL;
+    return dupAndRet(T_STRING_LITERAL);
 }
 
 "'"."'"         {
@@ -51,8 +62,7 @@ S  [ \b\n\t\f\r]
 }
 
 {W}({W}|{N})*   {
-    yylval.pChar = strdup(yytext);
-    return T_NAME;
+    return dupAndRet(T_NAME);
 }
 
 {N}+            {
@@ -60,9 +70,12 @@ S  [ \b\n\t\f\r]
     return T_NUMBER;
 }
 
-(?i:(0x|0b|0)?({hN}+|{hN}*\.{hN}+(e[+-]?{hN}+)?)u?([bsilfd]{N}*)?)    {
-    yylval.pChar = strdup(yytext);
-    return T_NUMBER_LITERAL;
+(?i:{nPrefix}?{hN}+{nSigning}({nType}{nLength})?)   {
+    return dupAndRet(T_INTEGER_LITERAL);
+}
+
+(?i:{nPrefix}?{hN}*\.{hN}+(e[+-]?{hN}+)?{nSigning}({nType}{nLength})?)  {
+    return dupAndRet(T_FLOAT_LITERAL);
 }
 
 .           { return * yytext; }

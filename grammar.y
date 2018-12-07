@@ -33,6 +33,7 @@ extern void yyerror(char *);
               function_arg list_function_arg list_expr_nr list_expr
               when_body when_stmts when_stmt when_expr
 
+%type <pChar> identifier_token
 %type <vBool> type_numeric_signed type_numeric_integer
 %type <vUChar> type_numeric_bits
 
@@ -59,16 +60,18 @@ extern void yyerror(char *);
 %right T_IF T_ELSE T_WHEN
 %right T_FUNCTION
 %token T_RETURN
-%token T_SIGNED T_UNSIGNED
-%token T_BIT T_BYTE T_SHORT T_LONG
-%token T_INT T_FLOAT
+
+%token <pChar> T_SIGNED T_UNSIGNED
+%token <pChar> T_BIT T_BYTE T_SHORT T_LONG
+%token <pChar> T_INT T_FLOAT
 
 %token <pChar> T_NAME
 %token <vInt> T_NUMBER
 
 %token <vChar> T_CHAR_LITERAL
 %token <pChar> T_STRING_LITERAL
-%token <pChar> T_NUMBER_LITERAL
+%token <pChar> T_INTEGER_LITERAL
+%token <pChar> T_FLOAT_LITERAL
 
 %left T_UMINUS
 
@@ -80,7 +83,19 @@ file
     ;
 
 identifier
-    : T_NAME { $$ = makeIdentifier($1); }
+    : identifier_token { $$ = makeIdentifier($1); }
+    ;
+
+identifier_token
+    : T_NAME
+    | T_SIGNED
+    | T_UNSIGNED
+    | T_BIT
+    | T_BYTE
+    | T_SHORT
+    | T_LONG
+    | T_INT
+    | T_FLOAT
     ;
 
 type
@@ -200,7 +215,8 @@ list_expr
 
 expr_value
     : T_NUMBER          { /**/ }
-    | T_NUMBER_LITERAL  { /**/ }
+    | T_INTEGER_LITERAL { /**/ }
+    | T_FLOAT_LITERAL   { /**/ }
     | T_STRING_LITERAL  { /**/ }
     | T_CHAR_LITERAL    { /**/ }
     ;
