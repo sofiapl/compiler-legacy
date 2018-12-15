@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Expr_.hpp"
-#include "../Identifier.hpp"
-#include "../Type_.hpp"
-#include "../Stmt_.hpp"
+#include <Node/Expr_.hpp>
+#include <Node/Identifier.hpp>
+#include <Node/Type_.hpp>
+#include <Node/Stmt_.hpp>
 
 namespace Node {
 

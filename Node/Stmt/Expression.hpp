@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Expr_.hpp"
-#include "../Stmt_.hpp"
+#include <Node/Expr_.hpp>
+#include <Node/Stmt_.hpp>
 
 namespace Node {
 
@@ -12,7 +12,9 @@ class Expression: public Stmt_ {
 public:
     Expr_ * expr = nullptr;
 
-    explicit Expression(Expr_ * expr) noexcept: expr(expr) {}
+    explicit Expression(Expr_ * expr) noexcept:
+            expr(expr)
+    {}
 };
 
 }

@@ -41,17 +41,24 @@ add_executable(
 
         # AST
         Node_.hpp
-        Node/Identifier.hpp
-        Node/Type_.hpp
-        Node/Type/Numeric.hpp
         Node/Expr_.hpp
+        Node/Expr/Value_.hpp
+        Node/Expr/Value/Numeric_.hpp
+        Node/Expr/Value/Numeric/Float.hpp
+        Node/Expr/Value/Numeric/Integer.hpp
+        Node/Identifier.hpp
         Node/Stmt_.hpp
-        Node/Stmt/VariableDefine.hpp
         Node/Stmt/Expression.hpp
         Node/Stmt/Return.hpp
+        Node/Stmt/VariableDefine.hpp
+        Node/Type_.hpp
+        Node/Type/Numeric_.hpp
+        Node/Type/Numeric/Float.hpp
+        Node/Type/Numeric/Integer.hpp
 
         # Parser
         bridges.cpp
+        bridges.h
         ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c
         ${CMAKE_CURRENT_BINARY_DIR}/y.tab.c
         ${CMAKE_CURRENT_BINARY_DIR}/y.tab.h

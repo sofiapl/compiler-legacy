@@ -3,5 +3,5 @@
 class Node_ {
 
 protected:
-    virtual void _() {};
+    virtual void _() noexcept {};
 };

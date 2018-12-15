@@ -22,11 +22,11 @@ extern void yyerror(char *);
 
     int vInt;
     bool vBool;
-    unsigned char vUChar;
+    unsigned vUnsigned;
 }
 
 %type <pVoid> file identifier
-              type type_numeric
+              type type_numeric type_numeric_token
               top_stmts top_stmt stmts stmts_r
               stmt stmt_variable_define stmt_expression stmt_return
               expr expr_function expr_function_call expr_value expr_fetch expr_assign expr_when expr_op
@@ -34,8 +34,8 @@ extern void yyerror(char *);
               when_body when_stmts when_stmt when_expr
 
 %type <pChar> identifier_token
-%type <vBool> type_numeric_signed type_numeric_integer
-%type <vUChar> type_numeric_bits
+%type <vBool> type_numeric_signed
+%type <vUnsigned> type_numeric_bits
 
 %left ','
 %right '!' '~'
@@ -105,13 +105,18 @@ type
     ;
 
 type_numeric
-    : type_numeric_signed                                           { $$ = makeNumericType(1, $1,    0,  false); }
-    | type_numeric_bits                                             { $$ = makeNumericType(2, false, $1, false); }
-    | type_numeric_integer                                          { $$ = makeNumericType(4, false, 0,  $1);    }
-    | type_numeric_signed type_numeric_bits                         { $$ = makeNumericType(3, $1,    $2, false); }
-    | type_numeric_signed type_numeric_integer                      { $$ = makeNumericType(5, $1,    0,  $2);    }
-    | type_numeric_bits type_numeric_integer                        { $$ = makeNumericType(6, false, $1, $1);    }
-    | type_numeric_signed type_numeric_bits type_numeric_integer    { $$ = makeNumericType(7, $1,    $2, $3);    }
+    : type_numeric_token
+    | type_numeric_signed type_numeric_token    { $$ = setNumericTypeSigned($2, $1); }
+    | type_numeric_bits type_numeric_token      { $$ = setNumericTypeBits($2, $1); }
+    | type_numeric_signed type_numeric_bits type_numeric_token  {
+        $$ = setNumericTypeBits(setNumericTypeSigned($3, $1), $2);
+    }
+    ;
+
+type_numeric_token
+    :           { $$ = makeIntegerNumericType(); }
+    | T_INT     { $$ = makeIntegerNumericType(); }
+    | T_FLOAT   { $$ = makeFloatNumericType(); }
     ;
 
 type_numeric_signed
@@ -125,11 +130,6 @@ type_numeric_bits
     | T_BYTE    { $$ = 8; }
     | T_SHORT   { $$ = 16; }
     | T_LONG    { $$ = 64; }
-    ;
-
-type_numeric_integer
-    : T_INT     { $$ = true; }
-    | T_FLOAT   { $$ = false; }
     ;
 
 top_stmts

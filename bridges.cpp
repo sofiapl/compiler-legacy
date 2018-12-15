@@ -1,9 +1,11 @@
 #include <vector>
 
-#include "Node/Stmt/VariableDefine.hpp"
-#include "Node/Stmt/Expression.hpp"
-#include "Node/Stmt/Return.hpp"
-#include "Node/Type/Numeric.hpp"
+#include <Node/Stmt/VariableDefine.hpp>
+#include <Node/Stmt/Expression.hpp>
+#include <Node/Stmt/Return.hpp>
+#include <Node/Type/Numeric_.hpp>
+#include <Node/Type/Numeric/Integer.hpp>
+#include <Node/Type/Numeric/Float.hpp>
 
 extern "C" {
 
@@ -31,22 +33,22 @@ Identifier * makeIdentifier(char * name) {
     return new Identifier(name);
 }
 
-Type::Numeric * makeNumericType(unsigned char mask, bool _signed, unsigned char bits, bool integer) {
-    auto ret = new Type::Numeric();
+Type::Numeric::Integer * makeIntegerNumericType() {
+    return new Type::Numeric::Integer();
+}
 
-    if (mask & 1) {
-        ret->signed_ = _signed;
-    }
+Type::Numeric::Float * makeFloatNumericType() {
+    return new Type::Numeric::Float();
+}
 
-    if (mask & 2) {
-        ret->bits = bits;
-    }
+Type::Numeric_ * setNumericTypeSigned(void * type, bool _signed) {
+    static_cast<Type::Numeric_ *>(type)->_signed = _signed;
+    return static_cast<Type::Numeric_ *>(type);
+}
 
-    if (mask & 4) {
-        ret->integer = integer;
-    }
-
-    return ret;
+Type::Numeric_ * setNumericTypeBits(void * type, Node::Type::Numeric_::BitsType bits) {
+    static_cast<Type::Numeric_ *>(type)->bits = bits;
+    return static_cast<Type::Numeric_ *>(type);
 }
 
 Stmt::VariableDefine * makeVariableDefineStmtT(void * name, void * type) {

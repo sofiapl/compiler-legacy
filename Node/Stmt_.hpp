@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Node_.hpp"
+#include <Node_.hpp>
 
 namespace Node {
 
