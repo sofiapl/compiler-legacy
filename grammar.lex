@@ -22,8 +22,6 @@ hN  [0-9a-fA-F]
 S   [ \b\n\t\f\r]
 
 nPrefix     (0x|0b|0)
-nSigning    u?
-nLength     {N}*
 
 %%
 
@@ -70,11 +68,12 @@ nLength     {N}*
     return T_NUMBER;
 }
 
-(?i:-?{nPrefix}?{hN}+{nSigning}([bsil]{nLength})?)  {
-    return dupAndRet(T_INTEGER_LITERAL);
+(?i:-?{nPrefix}?{hN}+u?([bsil]{N}*)?)  {
+    yylval.pVoid = parseIntegerLiteral(yytext);
+    return T_INTEGER_LITERAL;
 }
 
-(?i:-?{nPrefix}?{hN}*\.?{hN}+(e[+-]?{hN}+)?{nSigning}([fd]{nLength})?)  {
+(?i:-?{nPrefix}?{hN}*\.?{hN}*u?([fd]{N}*)?)  {
     return dupAndRet(T_FLOAT_LITERAL);
 }
 

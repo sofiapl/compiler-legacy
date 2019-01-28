@@ -22,7 +22,8 @@ protected:
     }
 
     bool isNumberChar(char c) override {
-        if (c == '.' || c == '-' || c == 'E' || c == 'e') {
+        if (!dot && c == '.') {
+            dot = true;
             return true;
         }
 
@@ -33,10 +34,12 @@ protected:
 
     bool handleTypeChar(char c) override {
         switch (c) {
+            case 'F':
             case 'f':
                 value->type->bits = 32;
                 break;
 
+            case 'D':
             case 'd':
                 value->type->bits = 64;
                 break;
@@ -51,6 +54,9 @@ protected:
     void makeNumberValue(const std::string & number) override {
         // TODO value->value = new llvm::APFloat(value->type->bits, number, value->radix);
     }
+
+private:
+    bool dot = false;
 };
 
 }

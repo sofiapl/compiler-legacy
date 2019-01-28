@@ -61,6 +61,7 @@ public:
             initValue();
         }
 
+        bool hasNumberChars = false;
         const char * cursor = text.c_str();
         while (* cursor && state != END) {
             switch (state) {
@@ -114,6 +115,7 @@ public:
 
                 case NUMBER:
                     if (isNumberChar(* cursor)) {
+                        hasNumberChars = true;
                         number += * cursor;
                     } else {
                         state = UNSIGNED;
@@ -161,11 +163,12 @@ public:
                 throw std::string("bad character ") + * cursor;
             }
 
-            if (number.empty() || number == "-") {
+            if (!hasNumberChars) {
                 throw "empty number";
             }
 
-            if (number[0] == '-') {
+            if (number[0] == '-' && !this->value->type->_signed) {
+                // TODO warn
                 throw "negative number with unsigned flag";
             }
 

@@ -71,8 +71,7 @@ extern void yyerror(const char *);
 
 %token <vChar> T_CHAR_LITERAL
 %token <pChar> T_STRING_LITERAL
-%token <pChar> T_INTEGER_LITERAL
-%token <pChar> T_FLOAT_LITERAL
+%token <pVoid> T_INTEGER_LITERAL T_FLOAT_LITERAL
 
 %left T_UMINUS
 
@@ -216,8 +215,8 @@ list_expr
 
 expr_value
     : T_NUMBER          { /**/ }
-    | T_INTEGER_LITERAL { /**/ }
-    | T_FLOAT_LITERAL   { /**/ }
+    | T_INTEGER_LITERAL
+    | T_FLOAT_LITERAL
     | T_STRING_LITERAL  { /**/ }
     | T_CHAR_LITERAL    { /**/ }
     ;

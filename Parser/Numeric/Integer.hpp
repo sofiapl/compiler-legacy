@@ -29,18 +29,22 @@ protected:
 
     bool handleTypeChar(char c) override {
         switch (c) {
+            case 'B':
             case 'b':
                 value->type->bits = 8;
                 break;
 
+            case 'S':
             case 's':
                 value->type->bits = 16;
                 break;
 
+            case 'I':
             case 'i':
                 value->type->bits = 32;
                 break;
 
+            case 'L':
             case 'l':
                 value->type->bits = 64;
                 break;
