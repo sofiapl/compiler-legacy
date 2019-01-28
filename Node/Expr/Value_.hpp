@@ -10,6 +10,9 @@ template <class T, class V>
 class Value_: public Expr_ {
 
 public:
+    typedef T TypeType;
+    typedef V ValueType;
+
     Value_(T * type, V * value):
             type(type),
             value(value)
@@ -17,7 +20,7 @@ public:
 
     T * type;
     V * value;
-}
+};
 
 }
 

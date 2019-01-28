@@ -8,11 +8,16 @@ add_compile_options(
     -Wall
     -fkeep-inline-functions
     -O0
+    -g
     -I${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 find_package(Flex  REQUIRED)
 find_package(Bison REQUIRED)
+find_package(LLVM  REQUIRED CONFIG)
+
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
 add_custom_command(
         MAIN_DEPENDENCY "${CMAKE_CURRENT_SOURCE_DIR}/grammar.lex"
@@ -33,6 +38,9 @@ add_custom_command(
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/y.tab.h"
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/y.output"
 )
+
+include_directories(${LLVM_INCLUDE_DIRS})
+add_definitions(${LLVM_DEFINITIONS})
 
 add_executable(
         sofia
@@ -62,4 +70,12 @@ add_executable(
         ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c
         ${CMAKE_CURRENT_BINARY_DIR}/y.tab.c
         ${CMAKE_CURRENT_BINARY_DIR}/y.tab.h
+        Parser_.hpp
+        Parser/Numeric_.hpp
+        Parser/Numeric/Integer.hpp
+        Parser/Numeric/Float.hpp
 )
+
+llvm_map_components_to_libnames(llvm_libs support core irreader)
+
+target_link_libraries(sofia ${llvm_libs})

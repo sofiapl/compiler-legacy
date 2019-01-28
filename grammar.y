@@ -3,13 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bridges.h"
+#include <bridges.h>
+
 extern void * file;
 
 int yydebug = 1;
 
 extern int yylex(void);
-extern void yyerror(char *);
+extern void yyerror(const char *);
 %}
 
 %debug
@@ -182,8 +183,8 @@ expr
     ;
 
 expr_function
-    : T_FUNCTION '(' list_function_arg ')' '{' stmts '}'
-            { /**/ }
+    : T_FUNCTION '(' list_function_arg ')' '{' stmts '}'            { /**/ }
+    | T_FUNCTION '(' list_function_arg ')' ':' type '{' stmts '}'   { /**/ }
     ;
 
 list_function_arg
@@ -268,6 +269,6 @@ expr_op
 
 %%
 
-void yyerror(char *s) {
+void yyerror(const char * s) {
     fprintf(stderr, "%s\n", s);
 }

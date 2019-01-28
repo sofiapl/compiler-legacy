@@ -3,5 +3,5 @@
 class Node_ {
 
 protected:
-    virtual void _() noexcept {};
+    virtual ~Node_() noexcept = default;
 };

@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <bridges.h>
+
 #include "y.tab.h"
-#include "bridges.h"
 
 extern void yyerror(char *);
 
@@ -22,7 +23,6 @@ S   [ \b\n\t\f\r]
 
 nPrefix     (0x|0b|0)
 nSigning    u?
-nType       [bsilfd]
 nLength     {N}*
 
 %%
@@ -56,7 +56,7 @@ nLength     {N}*
     return dupAndRet(T_STRING_LITERAL);
 }
 
-"'"."'"         {
+"'""\\"?."'"    {
     yylval.vChar = yytext[1];
     return T_CHAR_LITERAL;
 }
@@ -65,16 +65,16 @@ nLength     {N}*
     return dupAndRet(T_NAME);
 }
 
-{N}+            {
+-?{N}+          {
     yylval.vInt = atoi(yytext);
     return T_NUMBER;
 }
 
-(?i:{nPrefix}?{hN}+{nSigning}({nType}{nLength})?)   {
+(?i:-?{nPrefix}?{hN}+{nSigning}([bsil]{nLength})?)  {
     return dupAndRet(T_INTEGER_LITERAL);
 }
 
-(?i:{nPrefix}?{hN}*\.{hN}+(e[+-]?{hN}+)?{nSigning}({nType}{nLength})?)  {
+(?i:-?{nPrefix}?{hN}*\.?{hN}+(e[+-]?{hN}+)?{nSigning}([fd]{nLength})?)  {
     return dupAndRet(T_FLOAT_LITERAL);
 }
 

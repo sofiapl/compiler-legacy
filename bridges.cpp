@@ -6,10 +6,16 @@
 #include <Node/Type/Numeric_.hpp>
 #include <Node/Type/Numeric/Integer.hpp>
 #include <Node/Type/Numeric/Float.hpp>
+#include <Node/Expr/Value/Numeric/Integer.hpp>
+#include <Parser/Numeric/Integer.hpp>
+
+#include <llvm/ADT/StringRef.h>
 
 extern "C" {
 
 using namespace Node;
+
+void yyerror(const char *);
 
 std::vector <Node_ *> * makeNodesEmpty() {
     return new std::vector <Node_ *>;
@@ -69,6 +75,18 @@ Stmt::Expression * makeExpressionStmt(void * expr) {
 
 Stmt::Return * makeReturnStmt(void * value) {
     return new Stmt::Return(static_cast<Expr_ *>(value));
+}
+
+Expr::Value::Numeric::Integer * parseIntegerLiteral(char * text) {
+    auto parser = new Parser::Numeric::Integer();
+
+    try {
+        parser->parse(text);
+    } catch (const std::string & e) {
+        yyerror(e.c_str());
+    }
+
+    return parser->value;
 }
 
 }

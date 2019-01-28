@@ -1,7 +1,9 @@
 #pragma once
 
-#include <Node/Expr/Value_.hpp>
+#include <Node/Expr/Value/Numeric_.hpp>
 #include <Node/Type/Numeric/Integer.hpp>
+
+#include <llvm/ADT/APInt.h>
 
 namespace Node {
 
@@ -11,7 +13,7 @@ namespace Value {
 
 namespace Numeric {
 
-typedef Value_<Type::Numeric::Integer, APInt> Integer;
+typedef Numeric_<Type::Numeric::Integer, llvm::APInt> Integer;
 
 }
 
