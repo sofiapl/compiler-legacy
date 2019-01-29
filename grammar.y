@@ -5,6 +5,8 @@
 
 #include <bridges.h>
 
+#define ABORT_IF_NULL if (yylval.pVoid == NULL) YYABORT;
+
 extern void * file;
 
 int yydebug = 1;
@@ -215,8 +217,8 @@ list_expr
 
 expr_value
     : T_NUMBER          { /**/ }
-    | T_INTEGER_LITERAL
-    | T_FLOAT_LITERAL
+    | T_INTEGER_LITERAL { ABORT_IF_NULL; }
+    | T_FLOAT_LITERAL   { ABORT_IF_NULL; }
     | T_STRING_LITERAL  { /**/ }
     | T_CHAR_LITERAL    { /**/ }
     ;

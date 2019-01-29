@@ -52,6 +52,7 @@ protected:
     }
 
     void makeNumberValue(const std::string & number) override {
+        throw std::string("unsupported"); // TODO
         // TODO value->value = new llvm::APFloat(value->type->bits, number, value->radix);
     }
 

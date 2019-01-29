@@ -22,3 +22,4 @@ extern void * makeExpressionStmt(void * expr);
 extern void * makeReturnStmt(void * value);
 
 extern void * parseIntegerLiteral(char * text);
+extern void * parseFloatLiteral(char * text);

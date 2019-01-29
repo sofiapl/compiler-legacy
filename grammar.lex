@@ -74,7 +74,8 @@ nPrefix     (0x|0b|0)
 }
 
 (?i:-?{nPrefix}?{hN}*\.?{hN}*u?([fd]{N}*)?)  {
-    return dupAndRet(T_FLOAT_LITERAL);
+    yylval.pVoid = parseFloatLiteral(yytext);
+    return T_FLOAT_LITERAL;
 }
 
 .           { return * yytext; }

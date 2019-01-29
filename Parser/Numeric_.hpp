@@ -164,12 +164,12 @@ public:
             }
 
             if (!hasNumberChars) {
-                throw "empty number";
+                throw std::string("empty number");
             }
 
             if (number[0] == '-' && !this->value->type->_signed) {
                 // TODO warn
-                throw "negative number with unsigned flag";
+                throw std::string("negative number with unsigned flag");
             }
 
             if (!length.empty()) {
@@ -177,7 +177,7 @@ public:
 
                 this->value->type->bits = static_cast<Node::Type::Numeric_::BitsType>(len);
                 if (static_cast<int>(this->value->type->bits) != len) {
-                    throw "bad length";
+                    throw std::string("bad length");
                 }
             }
 
