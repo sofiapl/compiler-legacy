@@ -153,6 +153,10 @@ public:
                     }
 
                     break;
+
+                case END:
+                    // Unreachable statement, but compiler warns on this
+                    break;
             }
 
             ++cursor;
