@@ -23,7 +23,6 @@ extern void yyerror(const char *);
 
     void * pVoid;
 
-    int vInt;
     bool vBool;
     unsigned vUnsigned;
 }
@@ -68,8 +67,7 @@ extern void yyerror(const char *);
 %token <pChar> T_BIT T_BYTE T_SHORT T_LONG
 %token <pChar> T_INT T_FLOAT
 
-%token <pChar> T_NAME
-%token <vInt> T_NUMBER
+%token <pChar> T_NAME T_NUMBER
 
 %token <vChar> T_CHAR_LITERAL
 %token <pChar> T_STRING_LITERAL
@@ -127,7 +125,7 @@ type_numeric_signed
     ;
 
 type_numeric_bits
-    : T_NUMBER
+    : T_NUMBER  { $$ = atoi($1); }
     | T_BIT     { $$ = 1; }
     | T_BYTE    { $$ = 8; }
     | T_SHORT   { $$ = 16; }
@@ -216,7 +214,7 @@ list_expr
     ;
 
 expr_value
-    : T_NUMBER          { /**/ }
+    : T_NUMBER          { $$ = parseIntegerLiteral($1); }
     | T_INTEGER_LITERAL { ABORT_IF_NULL; }
     | T_FLOAT_LITERAL   { ABORT_IF_NULL; }
     | T_STRING_LITERAL  { /**/ }

@@ -25,7 +25,8 @@ nPrefix     (0x|0b|0)
 
 %%
 
-{S}         ;
+({S}|"//".*)+   ;
+(?s:"/*".*"*/") ;
 
 (?i:"var")      { return T_VAR; }
 (?i:"if")       { return T_IF; }
@@ -64,7 +65,7 @@ nPrefix     (0x|0b|0)
 }
 
 -?{N}+          {
-    yylval.vInt = atoi(yytext);
+    yylval.pChar = yytext;
     return T_NUMBER;
 }
 
