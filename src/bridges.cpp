@@ -79,6 +79,10 @@ Stmt::Return * makeReturnStmt(void * value) {
     return new Stmt::Return(static_cast<Expr_ *>(value));
 }
 
+Expr::Value::Char * makeCharValueExpr(char value) {
+    return new Expr::Value::Char();
+}
+
 Expr::Value::Numeric::Integer * parseIntegerLiteral(char * text) {
     auto parser = new Parser::Numeric::Integer();
 
