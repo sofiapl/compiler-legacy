@@ -15,7 +15,7 @@ public:
             _name(std::move(name))
     {}
 
-    explicit Identifier(const std::string & name) noexcept:
+    explicit Identifier(const std::string & name) noexcept: // NOLINT(modernize-pass-by-value)
             _name(name)
     {}
 

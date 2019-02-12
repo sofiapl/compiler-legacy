@@ -15,7 +15,7 @@ class Char: public Value_<Type::Numeric::Integer, llvm::APInt> {
 
 public:
     Char(llvm::APInt * value):
-            Value_ <Type::Numeric::Integer, V> (
+            Value_ <Type::Numeric::Integer, llvm::APInt> (
                 new Type::Numeric::Integer(),
                 value
             )
