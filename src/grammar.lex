@@ -14,6 +14,8 @@ int dupAndRet(int ret) {
     return ret;
 }
 
+// TODO Fix pattrens
+
 %}
 
 W   [a-zA-Z_$]
@@ -28,23 +30,23 @@ nPrefix     (0x|0b|0)
 ({S}|"//".*)+   ;
 (?s:"/*".*"*/") ;
 
-(?i:"var")      { return T_VAR; }
-(?i:"if")       { return T_IF; }
-(?i:"else")     { return T_ELSE; }
-(?i:"when")     { return T_WHEN; }
-(?i:"function") { return T_FUNCTION; }
-(?i:"return")   { return T_RETURN; }
+"var"       { return T_VAR; }
+"if"        { return T_IF; }
+"else"      { return T_ELSE; }
+"when"      { return T_WHEN; }
+"function"  { return T_FUNCTION; }
+"return"    { return T_RETURN; }
 
-(?i:"signed")   { return dupAndRet(T_SIGNED); }
-(?i:"unsigned") { return dupAndRet(T_UNSIGNED); }
-(?i:"bit")      { return dupAndRet(T_BIT); }
-(?i:"byte")     { return dupAndRet(T_BYTE); }
-(?i:"short")    { return dupAndRet(T_SHORT); }
-(?i:"long")     { return dupAndRet(T_LONG); }
-(?i:"int")      { return dupAndRet(T_INT); }
-(?i:"float")    { return dupAndRet(T_FLOAT); }
+"signed"    { return dupAndRet(T_SIGNED); }
+"unsigned"  { return dupAndRet(T_UNSIGNED); }
+"bit"       { return dupAndRet(T_BIT); }
+"byte"      { return dupAndRet(T_BYTE); }
+"short"     { return dupAndRet(T_SHORT); }
+"long"      { return dupAndRet(T_LONG); }
+"int"       { return dupAndRet(T_INT); }
+"float"     { return dupAndRet(T_FLOAT); }
 
-(?i:"->")   { return T_ARR_RIGHT; }
+"->"        { return T_ARR_RIGHT; }
 
 "**"        { return T_EXP_OP; }
 "<<"        { return T_SHL_OP; }
@@ -55,7 +57,7 @@ nPrefix     (0x|0b|0)
     return dupAndRet(T_STRING_LITERAL);
 }
 
-"'""\\"?."'"    {
+"'""\\"[\\bntfr']|."'"  {
     yylval.vChar = yytext[1];
     return T_CHAR_LITERAL;
 }

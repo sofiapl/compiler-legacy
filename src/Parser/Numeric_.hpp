@@ -56,14 +56,14 @@ public:
             Parser_ <Node::Expr::Value::Numeric_ <T, V> > (value)
     {}
 
-    void parse(std::string && text) override {
+    void parse(const std::string & text) override {
         if (this->value == nullptr) {
             initValue();
         }
 
+        auto cursor = text.begin();
         bool hasNumberChars = false;
-        const char * cursor = text.c_str();
-        while (* cursor && state != END) {
+        while (cursor != text.end() && state != END) {
             switch (state) {
                 case SIGN:
                     if (* cursor == '-') {
