@@ -13,5 +13,5 @@ public:
     Parser_(): value(nullptr) {}
     explicit Parser_(V * value): value(value) {}
 
-    virtual void parse(std::string && text) = 0;
+    virtual void parse(const std::string & text) = 0;
 };
