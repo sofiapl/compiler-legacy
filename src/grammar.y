@@ -28,11 +28,12 @@ extern void yyerror(const char *);
 }
 
 %type <pVoid> file identifier
-              type type_numeric type_numeric_token
+              type type_numeric type_numeric_token type_function
+              list_function_arg_type_nr list_function_arg_type function_arg_type
               top_stmts top_stmt stmts stmts_r
               stmt stmt_variable_define stmt_expression stmt_return
               expr expr_function expr_function_call expr_value expr_fetch expr_assign expr_when expr_op
-              function_arg list_function_arg list_expr_nr list_expr
+              function_arg list_function_arg_nr list_function_arg list_expr_nr list_expr
               when_body when_stmts when_stmt when_expr
 
 %type <pChar> identifier_token
@@ -69,8 +70,7 @@ extern void yyerror(const char *);
 
 %token <pChar> T_NAME T_NUMBER
 
-%token <vChar> T_CHAR_LITERAL
-%token <pChar> T_STRING_LITERAL
+%token <pChar> T_CHAR_LITERAL T_STRING_LITERAL
 %token <pVoid> T_INTEGER_LITERAL T_FLOAT_LITERAL
 
 %left T_UMINUS
@@ -130,6 +130,26 @@ type_numeric_bits
     | T_BYTE    { $$ = 8; }
     | T_SHORT   { $$ = 16; }
     | T_LONG    { $$ = 64; }
+    ;
+
+type_function
+    : '(' list_function_arg_type_nr ')'                     { /**/ }
+    | '(' list_function_arg_type_nr ')' T_ARR_RIGHT type    { /**/ }
+    ;
+
+list_function_arg_type_nr
+    :                           { $$ = makeNodesEmpty(); }
+    | list_function_arg_type
+    ;
+
+list_function_arg_type
+    : function_arg_type                             { $$ = makeNodes($1); }
+    | list_function_arg_type ',' function_arg_type  { $$ = pushNode($1, $3); }
+    ;
+
+function_arg_type
+    : type
+    | '_'           { $$ = NULL; }
     ;
 
 top_stmts

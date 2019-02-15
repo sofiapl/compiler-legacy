@@ -23,3 +23,4 @@ extern void * makeReturnStmt(void * value);
 
 extern void * parseIntegerLiteral(char * text);
 extern void * parseFloatLiteral(char * text);
+extern void * parseCharLiteral(char * text);
