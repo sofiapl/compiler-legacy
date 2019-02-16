@@ -45,6 +45,7 @@ add_executable(sofia
         bridges.cpp
         bridges.h
         Parser_.hpp
+        Parser/Char.cpp
         Parser/Char.hpp
         Parser/Numeric_.hpp
         Parser/Numeric/Integer.cpp
@@ -65,3 +66,7 @@ target_compile_definitions(sofia PUBLIC  ${LLVM_DEFINITIONS})
 
 llvm_map_components_to_libnames(llvm_libs support core irreader)
 target_link_libraries(sofia ${llvm_libs})
+
+set_target_properties(sofia PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}
+)

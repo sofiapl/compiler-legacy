@@ -212,7 +212,7 @@ list_function_arg_nr
     ;
 
 list_function_arg
-    | function_arg                          { $$ = makeNodes($1); }
+    : function_arg                          { $$ = makeNodes($1); }
     | list_function_arg ',' function_arg    { $$ = pushNode($1, $3); }
     ;
 
@@ -241,8 +241,8 @@ expr_value
     : T_NUMBER          { $$ = parseIntegerLiteral($1); }
     | T_INTEGER_LITERAL { ABORT_IF_NULL; }
     | T_FLOAT_LITERAL   { ABORT_IF_NULL; }  /* Strings TODO
-    | T_STRING_LITERAL  { /**/ }            */
-    | T_CHAR_LITERAL    { $$ = makeCharValueExpr($1); }
+    | T_STRING_LITERAL  {}                  */
+    | T_CHAR_LITERAL    { $$ = parseCharLiteral($1); }
     ;
 
 expr_fetch
