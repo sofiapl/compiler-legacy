@@ -4,31 +4,31 @@ var factory = function(n) {
 
     return when (n) {
         0 -> function() {
-            printf("Hello, World!")
+            // printf("Hello, World!")
         }
 
         1 -> function() {
-            printf("%lf", a + b)
+            // printf("%lf", a + b)
         }
 
         2 -> function() {
-            printf("%lf", a - b)
+            // printf("%lf", a - b)
         }
 
         3 -> function() {
-            printf("%lf", a * b)
+            // printf("%lf", a * b)
         }
 
         4 -> function() {
-            printf("%lf", a / b)
+            // printf("%lf", a / b)
         }
 
         5 -> function() {
-            printf("%lf", a % b)
+            // printf("%lf", a % b)
         }
 
         else -> function() {
-            printf("%d %lf", a, b)
+            // printf("%d %lf", a, b)
         }
     }
 }
