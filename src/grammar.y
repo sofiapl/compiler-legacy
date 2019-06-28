@@ -99,9 +99,9 @@ identifier_token
     ;
 
 type
-    : type_numeric  /*
-    | type_array
-    | type_function */
+    : type_numeric  /* Arrays TODO
+    | type_array    */
+    | type_function
     ;
 
 type_numeric
@@ -182,12 +182,16 @@ expr
     ;
 
 expr_function
-    : T_FUNCTION '(' list_function_arg ')' '{' stmts '}'            { /**/ }
-    | T_FUNCTION '(' list_function_arg ')' ':' type '{' stmts '}'   { /**/ }
+    : T_FUNCTION '(' list_function_arg_nr ')' '{' stmts '}'             { /**/ }
+    | T_FUNCTION '(' list_function_arg_nr ')' ':' type '{' stmts '}'    { /**/ }
+    ;
+
+list_function_arg_nr
+    :                   { $$ = makeNodesEmpty(); }
+    | list_function_arg
     ;
 
 list_function_arg
-    :                                       { $$ = makeNodesEmpty(); }
     | function_arg                          { $$ = makeNodes($1); }
     | list_function_arg ',' function_arg    { $$ = pushNode($1, $3); }
     ;
@@ -216,9 +220,9 @@ list_expr
 expr_value
     : T_NUMBER          { $$ = parseIntegerLiteral($1); }
     | T_INTEGER_LITERAL { ABORT_IF_NULL; }
-    | T_FLOAT_LITERAL   { ABORT_IF_NULL; }
-    | T_STRING_LITERAL  { /**/ }
-    | T_CHAR_LITERAL    { /**/ }
+    | T_FLOAT_LITERAL   { ABORT_IF_NULL; }  /* Strings TODO
+    | T_STRING_LITERAL  { /**/ }            */
+    | T_CHAR_LITERAL    { $$ = makeCharValueExpr($1); }
     ;
 
 expr_fetch

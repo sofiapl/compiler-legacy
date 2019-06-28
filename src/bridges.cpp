@@ -7,9 +7,11 @@
 #include <Node/Type/Numeric/Integer.hpp>
 #include <Node/Type/Numeric/Float.hpp>
 #include <Node/Expr/Value/Numeric/Integer.hpp>
+#include <Node/Expr/Value/Char.hpp>
 
 #include <Parser/Numeric/Integer.hpp>
 #include <Parser/Numeric/Float.hpp>
+#include <Parser/Char.hpp>
 
 #include <llvm/ADT/StringRef.h>
 
@@ -94,6 +96,19 @@ Expr::Value::Numeric::Integer * parseIntegerLiteral(char * text) {
 
 Expr::Value::Numeric::Float * parseFloatLiteral(char * text) {
     auto parser = new Parser::Numeric::Float();
+
+    try {
+        parser->parse(text);
+    } catch (const std::string & e) {
+        yyerror(e.c_str());
+        return nullptr;
+    }
+
+    return parser->value;
+}
+
+Expr::Value::Char * parseCharLiteral(char * text) {
+    auto parser = new Parser::Char();
 
     try {
         parser->parse(text);

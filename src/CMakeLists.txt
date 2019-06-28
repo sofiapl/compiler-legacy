@@ -24,6 +24,7 @@ add_executable(sofia
         Node_.hpp
         Node/Expr_.hpp
         Node/Expr/Value_.hpp
+        Node/Expr/Value/Char.hpp
         Node/Expr/Value/Numeric_.hpp
         Node/Expr/Value/Numeric/Float.hpp
         Node/Expr/Value/Numeric/Integer.hpp
@@ -44,6 +45,7 @@ add_executable(sofia
         bridges.cpp
         bridges.h
         Parser_.hpp
+        Parser/Char.hpp
         Parser/Numeric_.hpp
         Parser/Numeric/Integer.cpp
         Parser/Numeric/Integer.hpp
