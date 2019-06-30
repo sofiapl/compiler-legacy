@@ -11,10 +11,12 @@ public:
     class Expression;
     class Return;
 
-    Stmt() noexcept = default;
+    inline Stmt() noexcept = default;
 
 protected:
-    ~Stmt() noexcept override = 0;
+    inline ~Stmt() noexcept override = 0;
 };
+
+inline Node::Stmt::~Stmt() noexcept = default;
 
 }

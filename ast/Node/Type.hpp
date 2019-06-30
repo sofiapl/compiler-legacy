@@ -11,10 +11,12 @@ public:
     class Numeric;
     class Function;
 
-    Type() noexcept = default;
+    inline Type() noexcept = default;
 
 protected:
-    ~Type() noexcept override = 0;
+    inline ~Type() noexcept override = 0;
 };
+
+inline Node::Type::~Type() noexcept = default;
 
 }

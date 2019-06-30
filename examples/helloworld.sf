@@ -33,6 +33,22 @@ var factory = function(action) {
     }
 }
 
-var main = function(args) {
-    factory(args[0])()
-}
+/* Compose:
+ *
+ * var main = function(args) {
+ *     (function(args) {
+ *         return factory((function(args) {
+ *             return args[0]
+ *         })(args))
+ *     })(args)()
+ * }
+ *
+ * equals to:
+ *
+ * var main = function(args) {
+ *     factory(args[0])()
+ * }
+ *
+ */
+var main = function(args) =
+    ((function(args) = args[0]) -> factory)(args)()

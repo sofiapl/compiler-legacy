@@ -15,10 +15,12 @@ public:
     const bool isSigned;
     const uint64_t width;
 
-    Numeric(bool isSigned, uint64_t width) noexcept : isSigned(isSigned), width(width) {}
+    inline Numeric(bool isSigned, uint64_t width) noexcept : isSigned(isSigned), width(width) {}
 
 protected:
-    ~Numeric() noexcept override = 0;
+    inline ~Numeric() noexcept override = 0;
 };
+
+inline Node::Type::Numeric::~Numeric() noexcept = default;
 
 }

@@ -9,14 +9,14 @@ namespace ast {
 class Node::Type::Function : public Type {
 
 public:
-    const std::vector<Node::Type> arguments;
+    const std::vector<const Node::Type *> arguments;
     const Node::Type * const returnType;
 
-    Function(std::vector<Node::Type> && arguments, const Node::Type * returnType) noexcept :
+    inline Function(std::vector<const Node::Type *> && arguments, const Node::Type * returnType) noexcept :
         arguments(std::move(arguments)), returnType(returnType) {}
 
 protected:
-    ~Function() noexcept override = default;
+    inline ~Function() noexcept override = default;
 };
 
 }

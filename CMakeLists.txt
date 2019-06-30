@@ -18,7 +18,7 @@ add_executable(
 )
 
 add_subdirectory(ast)
-target_link_libraries(sofia ast)
+target_link_libraries(sofia sofia_ast)
 
 target_compile_features(sofia PUBLIC cxx_std_14)
 target_compile_options(sofia PRIVATE

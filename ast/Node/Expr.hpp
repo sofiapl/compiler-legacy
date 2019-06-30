@@ -7,12 +7,22 @@ namespace ast {
 class Node::Expr : public Node {
 
 public:
-    // TODO
+    class When;
+    class Value;
+    class Function;
+    class FunctionCall;
+    class ElementFetch;
+    class VariableFetch;
+    class UnaryOperator;
+    class AssignOperator;
+    class BinaryOperator;
 
-    Expr() noexcept = default;
+    inline Expr() noexcept = default;
 
 protected:
-    ~Expr() noexcept override = 0;
+    inline ~Expr() noexcept override = 0;
 };
+
+inline Node::Expr::~Expr() noexcept = default;
 
 }

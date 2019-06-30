@@ -9,10 +9,12 @@ public:
     class Stmt;
     class Type;
 
-    Node() noexcept = default;
+    inline Node() noexcept = default;
 
 protected:
-    virtual ~Node() noexcept = 0;
+    inline virtual ~Node() noexcept = 0;
 };
+
+inline Node::~Node() noexcept = default;
 
 }

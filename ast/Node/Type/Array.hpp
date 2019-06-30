@@ -12,10 +12,10 @@ public:
     const Node::Type * const type;
     const uint64_t * const length;
 
-    Array(const Node::Type * type, const uint64_t * length) noexcept : type(type), length(length) {}
+    inline Array(const Node::Type * type, const uint64_t * length) noexcept : type(type), length(length) {}
 
 protected:
-    ~Array() noexcept override = default;
+    inline ~Array() noexcept override = default;
 };
 
 }
