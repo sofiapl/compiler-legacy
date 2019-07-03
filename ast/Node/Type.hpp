@@ -9,6 +9,7 @@ class Node::Type : public Node {
 public:
     class Array;
     class Numeric;
+    class Character;
     class Function;
 
     inline Type() noexcept = default;

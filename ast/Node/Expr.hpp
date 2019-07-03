@@ -10,11 +10,11 @@ public:
     class When;
     class Value;
     class Function;
+    class SingleExprFunction;
     class FunctionCall;
     class ElementFetch;
     class VariableFetch;
     class UnaryOperator;
-    class AssignOperator;
     class BinaryOperator;
 
     inline Expr() noexcept = default;

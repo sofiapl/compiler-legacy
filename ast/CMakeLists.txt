@@ -17,15 +17,20 @@ add_library(
         Node/Expr.hpp
         Node/Expr/When.hpp
         Node/Expr/When/Case.hpp
-        # Node/Expr/Value.hpp
+        Node/Expr/Value.hpp
+        Node/Expr/Value/Numeric.hpp
+        Node/Expr/Value/Numeric/Float.hpp
+        Node/Expr/Value/Numeric/Integer.hpp
+        Node/Expr/Value/Character.hpp
+        Node/Expr/Value/String.hpp
         Node/Expr/Function.hpp
         Node/Expr/Function/Argument.hpp
+        Node/Expr/SingleExprFunction.hpp
         Node/Expr/FunctionCall.hpp
         Node/Expr/ElementFetch.hpp
         Node/Expr/VariableFetch.hpp
-        # Node/Expr/UnaryOperator.hpp
-        # Node/Expr/AssignOperator.hpp
-        # Node/Expr/BinaryOperator.hpp
+        Node/Expr/UnaryOperator.hpp
+        Node/Expr/BinaryOperator.hpp
         Node/Stmt.hpp
         Node/Stmt/Return.hpp
         Node/Stmt/Expression.hpp
@@ -35,6 +40,7 @@ add_library(
         Node/Type/Numeric.hpp
         Node/Type/Numeric/Float.hpp
         Node/Type/Numeric/Integer.hpp
+        Node/Type/Character.hpp
         Node/Type/Function.hpp
 )
 
